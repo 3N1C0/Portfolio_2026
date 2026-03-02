@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elias Nicolas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --espresso:     #2C1A0E;
+    --coffee:       #4A2C17;
+    --mocha:        #7A4A2A;
+    --latte:        #B07848;
+    --caramel:      #C8965A;
+    --milk:         #D9BC96;
+    --cream:        #F5EFE0;
+    --cream-dark:   #EDE3CE;
+    --cream-deeper: #E2D4B8;
+    --ink:          #1C1008;
+    --ink-soft:     #4A3828;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream); color: var(--ink);
+    font-family: 'Space Mono', monospace; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0 1rem 6rem;
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(180,120,72,0.09) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 85%, rgba(122,74,42,0.07) 0%, transparent 55%);
+  }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.045'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; opacity: 0.65; }
+
+  .page { width: 100%; max-width: 740px; display: flex; flex-direction: column; }
+
+  nav { position: sticky; top: 0; z-index: 50; width: 100%; max-width: 740px; background: rgba(245,239,224,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--milk); display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0; margin-bottom: 2.5rem; }
+  .nav-back { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mocha); text-decoration: none; padding: 0.3rem 0.85rem; border-right: 1px solid var(--milk); transition: color 0.15s; }
+  .nav-back:hover { color: var(--espresso); }
+  .nav-right { display: flex; }
+  .nav-right a { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; padding: 0.3rem 0.85rem; border-left: 1px solid var(--milk); transition: color 0.15s; }
+  .nav-right a:hover { color: var(--coffee); }
+
+  header { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; border-bottom: 2px solid var(--mocha); padding-bottom: 0.8rem; }
+  .logo { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; color: var(--espresso); line-height: 1; text-decoration: none; display: block; }
+  .logo em { font-style: italic; font-weight: 400; color: var(--mocha); }
+  .header-right { text-align: right; }
+  .page-label { font-size: 0.56rem; font-weight: 400; color: var(--ink-soft); letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.9; }
+
+  .section-head { display: flex; align-items: baseline; gap: 0.85rem; margin-bottom: 2rem; border-bottom: 1.5px solid var(--milk); padding-bottom: 0.5rem; }
+  .section-head h2 { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coffee); }
+  .section-head .tag { font-size: 0.5rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--milk); }
+
+  .cover-wrap { position: relative; width: 100%; margin-bottom: 1.75rem; }
+  .cover-wrap::before, .cover-wrap::after { content: ''; position: absolute; width: 16px; height: 16px; border-color: var(--mocha); border-style: solid; pointer-events: none; z-index: 2; }
+  .cover-wrap::before { top: -5px; left: -5px; border-width: 2px 0 0 2px; }
+  .cover-wrap::after  { bottom: -5px; right: -5px; border-width: 0 2px 2px 0; }
+  .cover-wrap svg { width: 100%; height: 200px; display: block; border: 1px solid var(--milk); }
+
+  .project-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.8rem; }
+  .project-type { font-size: 0.5rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--latte); }
+  .project-links { display: flex; gap: 0.5rem; }
+  .project-links a { font-family: 'Space Mono', monospace; font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--milk); color: var(--ink-soft); padding: 0.28rem 0.65rem; border-radius: 2px; transition: all 0.15s; }
+  .project-links a:hover { border-color: var(--mocha); color: var(--coffee); }
+
+  .project-title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; color: var(--espresso); margin-bottom: 0.55rem; }
+  .project-desc { font-size: 0.64rem; line-height: 1.95; color: var(--ink-soft); margin-bottom: 2rem; max-width: 600px; }
+
+  .panels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--milk); border: 1px solid var(--milk); margin-bottom: 3rem; }
+  .panel { background: var(--cream-dark); padding: 1.2rem 1.1rem 1.3rem; display: flex; flex-direction: column; gap: 0.65rem; }
+  .panel-goal       { border-top: 2px solid var(--latte); }
+  .panel-challenges { border-top: 2px solid var(--mocha); }
+  .panel-results    { border-top: 2px solid var(--espresso); }
+  .panel-label { font-size: 0.48rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--latte); display: flex; align-items: center; gap: 0.45rem; }
+  .panel-label::after { content: ''; flex: 1; height: 1px; background: var(--milk); }
+  .panel p { font-size: 0.61rem; line-height: 1.9; color: var(--ink-soft); }
+  code { font-size: 0.58rem; color: var(--mocha); }
+
+  .gallery-head { display: flex; align-items: baseline; gap: 0.85rem; margin-bottom: 1.25rem; border-bottom: 1.5px solid var(--milk); padding-bottom: 0.5rem; }
+  .gallery-head h3 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coffee); }
+  .gallery-head .tag { font-size: 0.5rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--milk); }
+
+  .gallery { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 3rem; }
+  .gallery-item { display: flex; flex-direction: column; gap: 0; }
+
+  .img-slot { position: relative; width: 100%; aspect-ratio: 4/3; background: var(--cream-deeper); border: 1px solid var(--milk); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .img-slot::before, .img-slot::after { content: ''; position: absolute; width: 10px; height: 10px; border-color: var(--milk); border-style: solid; pointer-events: none; z-index: 2; }
+  .img-slot::before { top: -2px; left: -2px; border-width: 1.5px 0 0 1.5px; }
+  .img-slot::after  { bottom: -2px; right: -2px; border-width: 0 1.5px 1.5px 0; }
+  .img-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .img-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; height: 100%; pointer-events: none; }
+  .img-placeholder svg { opacity: 0.25; }
+  .img-placeholder span { font-size: 0.46rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--milk); text-align: center; line-height: 1.8; }
+
+  .img-caption { background: var(--cream-dark); border: 1px solid var(--milk); border-top: none; padding: 0.55rem 0.7rem; }
+  .img-caption p { font-size: 0.54rem; line-height: 1.75; color: var(--ink-soft); font-style: italic; }
+  .img-caption .caption-label { font-size: 0.46rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--milk); margin-bottom: 0.2rem; font-style: normal; }
+
+  footer { margin-top: 3rem; width: 100%; max-width: 740px; border-top: 1.5px solid var(--mocha); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+  .footer-logo { font-size: 1rem; font-weight: 700; color: var(--espresso); text-decoration: none; display: block; }
+  .footer-logo em { font-style: italic; font-weight: 400; color: var(--mocha); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.54rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.15s; }
+  .footer-links a:hover { color: var(--coffee); }
+  .footer-copy { font-size: 0.5rem; letter-spacing: 0.08em; color: var(--milk); text-transform: uppercase; width: 100%; }
+
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    .panels { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr; }
+    .cover-wrap svg { height: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-back" href="portfolio.html">← Portfolio</a>
+</nav>
+
+<div class="page">
+
+  <header>
+    <a class="logo" href="portfolio.html">Elias <em>Nicolas</em></a>
+    <div class="header-right">
+      <div class="page-label">Project Case Study<br>Robotics</div>
+    </div>
+  </header>
+
+  <div class="project-meta reveal">
+    <span class="project-type">CAD &nbsp;·&nbsp; Python &nbsp;·&nbsp; C++ &nbsp;·&nbsp; FEA</span>
+    <div class="project-links">
+      <a href="https://dof-kinematics-simulation.streamlit.app/">Kinematics Website ↗</a>
+      <a href="https://github.com/3N1C0/Robotic_Arm">GitHub ↗</a>
+    </div>
+  </div>
+
+  <div class="project-title reveal">Da Vinci : The Drawing Robotic Arm</div>
+  <div class="project-desc reveal">Real-time adaptive robotic arm that will mimic whatever you draw virtually through a Javascript to C++ pipline. Utilizes custom designed parts 3D printed in-house, includes a Python kinematics simulation, and runs off an ESP-32 (total cost less than $100).</div>
+
+  <div class="panels reveal">
+    <div class="panel panel-goal">
+      <div class="panel-label">Goal</div>
+      <p>The main goal of this project was too build a 4 DOF Robotic Arm from the ground up, with it's purpose being to mimic whatever is drawn on the live simulation website. I also had to ensure that it met budget constraints, with the total cost being under $100 making this a low-cost budget robotics project.</p>
+    </div>
+    <div class="panel panel-challenges">
+      <div class="panel-label">Challenges</div>
+      <p>The biggest challenge I faced was distribution of weight and maintaining motor stability, so I redesigned the arm to reduce any unnecessary mass, and implemented metal gear motors rather than plastic ones. After my redesign, I conducted FEA (Finite Element Analysis) to analyze areas with the most concentrated stress and to test how much weight the arm is capable of lifting.</p>
+    </div>
+    <div class="panel panel-results">
+      <div class="panel-label">Solutions &amp; Results</div>
+      <p>I designed the custom parts in Onshape, prototyping multiple iterations until I perfected all of the tolerances so that they were compatible with the servo motors. I also created a live inverse kinematics simulation website to give me and other students a better understanding of the mathematical concepts behind robotics, I am currently in the final stage of debugging the website to ensure that the Javascript to C++ pipeline works smoothly.</p>
+    </div>
+  </div>
+
+  <div class="gallery-head reveal">
+    <h3>Gallery</h3>
+    <span class="tag">Screenshots &amp; Process</span>
+  </div>
+
+  <div class="gallery">
+    <div class="gallery-item reveal">
+      <div class="img-slot">
+        <!-- Replace with: <img src="your-image.jpg" alt="Map overview"> -->
+        <div class="img-placeholder">
+          <img src="./assets/FEA.jpg" alt="FEA">
+        </div>
+      </div>
+      <div class="img-caption">
+        <div class="caption-label">Fig. 01</div>
+        <p>FEA simulation done in SimScale for the Robotic Arm Assembly</p>
+      </div>
+    </div>
+    <div class="gallery-item reveal">
+      <div class="img-slot">
+        <!-- Replace with: <img src="your-image.jpg" alt="Zoning detail panel"> -->
+        <div class="img-placeholder">
+          <img src="./assets/da_vinci.png" alt="Arm">
+        </div>
+      </div>
+      <div class="img-caption">
+        <div class="caption-label">Fig. 02</div>
+        <p>CAD assembly of the Robotic Arm with the base designed in Onshape</p>
+      </div>
+    </div>
+    <div class="gallery-item reveal">
+      <div class="img-slot">
+        <!-- Replace with: <img src="your-image.jpg" alt="Data pipeline diagram"> -->
+        <div class="img-placeholder">
+          <img src="./assets/ik.png" alt="Inverse Kinematics Simulation">
+        </div>
+      </div>
+      <div class="img-caption">
+        <div class="caption-label">Fig. 03</div>
+        <p>Screenshot from the Inverse Kinematics simulation website</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a class="footer-logo" href="portfolio.html">Elias <em>Nicolas</em></a>
+  <nav class="footer-links">
+    <a href="http://www.linkedin.com/in/elias-nicolas-2a98652a2" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/3N1C0" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:elias.f.nicolas@gmail.com">Email</a>
+  </nav>
+  <div class="footer-copy">© 2026 Elias Nicolas</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+      const idx = Array.from(siblings).indexOf(entry.target);
+      entry.target.style.transitionDelay = `${idx * 50}ms`;
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

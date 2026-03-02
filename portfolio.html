@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elias Nicolas — Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --espresso:     #2C1A0E;
+    --coffee:       #4A2C17;
+    --mocha:        #7A4A2A;
+    --latte:        #B07848;
+    --caramel:      #C8965A;
+    --milk:         #D9BC96;
+    --cream:        #F5EFE0;
+    --cream-dark:   #EDE3CE;
+    --cream-deeper: #E2D4B8;
+    --ink:          #1C1008;
+    --ink-soft:     #4A3828;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem 5rem;
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(180,120,72,0.09) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 85%, rgba(122,74,42,0.07) 0%, transparent 55%);
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.045'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.65;
+  }
+
+  /* ════════════════ LAYOUT ════════════════ */
+  .page {
+    width: 100%;
+    max-width: 740px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    max-width: 740px;
+    background: rgba(245, 239, 224, 0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--milk);
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.55rem 0;
+    margin-bottom: 2.5rem;
+  }
+
+  nav a {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.3rem 0.85rem;
+    border-right: 1px solid var(--milk);
+    transition: color 0.15s;
+  }
+  nav a:last-child { border-right: none; }
+  nav a:hover { color: var(--coffee); }
+
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--mocha);
+    padding-bottom: 0.8rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--espresso);
+    line-height: 1;
+  }
+  .logo em { font-style: italic; font-weight: 400; color: var(--mocha); }
+
+  .subtitle {
+    font-size: 0.56rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.9;
+  }
+
+  section { width: 100%; margin-bottom: 3.5rem; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1.5px solid var(--milk);
+    padding-bottom: 0.5rem;
+  }
+
+  .section-head h2 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--coffee);
+  }
+
+  .section-head .tag {
+    font-size: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--milk);
+  }
+
+  /* ════════════════ HERO ════════════════ */
+  .hero-grid { display: flex; gap: 2rem; align-items: flex-start; }
+
+  .hero-img-wrap {
+    flex-shrink: 0;
+    width: 108px; height: 108px;
+    border: 1.5px solid var(--milk);
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-img-wrap::before,
+  .hero-img-wrap::after {
+    content: '';
+    position: absolute;
+    width: 11px; height: 11px;
+    border-color: var(--latte);
+    border-style: solid;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero-img-wrap::before { top: -3px; left: -3px; border-width: 2px 0 0 2px; }
+  .hero-img-wrap::after  { bottom: -3px; right: -3px; border-width: 0 2px 2px 0; }
+  .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .img-placeholder-text {
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--milk);
+    text-align: center;
+    line-height: 1.9;
+    padding: 0.5rem;
+  }
+
+  .hero-text h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--espresso);
+    margin-bottom: 0.3rem;
+  }
+
+  .hero-text .role {
+    font-size: 0.58rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--latte);
+    margin-bottom: 0.85rem;
+  }
+
+  .hero-text p {
+    font-size: 0.66rem;
+    line-height: 1.95;
+    color: var(--ink-soft);
+    max-width: 460px;
+  }
+
+  .hero-actions { display: flex; gap: 0.75rem; margin-top: 1.2rem; flex-wrap: wrap; }
+
+  /* ════════════════ BUTTONS ════════════════ */
+  .btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--mocha);
+    background: transparent;
+    color: var(--coffee);
+    padding: 0.44rem 1.05rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn:hover { background: var(--mocha); color: var(--cream); }
+  .btn-ghost { border-color: var(--milk); color: var(--ink-soft); }
+  .btn-ghost:hover { border-color: var(--mocha); background: transparent; color: var(--coffee); }
+
+  /* ════════════════ TIMELINE ════════════════ */
+  .timeline {
+    border-left: 1.5px solid var(--milk);
+    margin-left: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline-item { position: relative; padding: 0 0 2.25rem 1.75rem; }
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -5px; top: 0.3rem;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--milk);
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 1.5px var(--milk);
+  }
+  .timeline-item:first-child .timeline-dot {
+    background: var(--mocha);
+    box-shadow: 0 0 0 1.5px var(--mocha);
+  }
+
+  .timeline-meta {
+    font-size: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--milk);
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-item h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--espresso);
+    margin-bottom: 0.15rem;
+  }
+
+  .timeline-company {
+    font-size: 0.58rem;
+    font-style: italic;
+    color: var(--latte);
+    margin-bottom: 0.65rem;
+  }
+
+  .timeline-duties { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .timeline-duties li {
+    font-size: 0.62rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    padding-left: 0.85rem;
+    position: relative;
+  }
+  .timeline-duties li::before { content: '—'; position: absolute; left: 0; color: var(--milk); }
+
+  /* ════════════════ PROJECTS ════════════════ */
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .project-card {
+    background: var(--cream-dark);
+    border: 1px solid var(--milk);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .project-card:hover { border-color: var(--mocha); }
+
+.project-cover {
+  width: 100%;
+  height: 230px;        /* fixed height instead of 50% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  overflow: hidden;
+}
+
+.project-cover img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+  .project-body { padding: 1rem 1rem 0.9rem; }
+
+  .p-tag {
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--latte);
+    margin-bottom: 0.35rem;
+  }
+
+  .project-card h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--espresso);
+    margin-bottom: 0.35rem;
+  }
+
+  .project-card p {
+    font-size: 0.6rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    margin-bottom: 0.85rem;
+  }
+
+  .project-links { display: flex; gap: 0.5rem; }
+  .project-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--milk);
+    color: var(--ink-soft);
+    padding: 0.28rem 0.65rem;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .project-links a:hover { border-color: var(--mocha); color: var(--coffee); }
+
+  /* ════════════════ SKILLS ════════════════ */
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .skill-block {
+    background: var(--cream-dark);
+    border: 1px solid var(--milk);
+    border-radius: 2px;
+    padding: 1rem;
+  }
+
+  .skill-block h4 {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--latte);
+    border-bottom: 1px solid var(--milk);
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  .skill-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.54rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+    background: var(--cream);
+    border: 1px solid var(--milk);
+    padding: 0.2rem 0.58rem;
+    border-radius: 2px;
+  }
+
+  /* ════════════════ LIBRARY ════════════════ */
+  .library { display: flex; flex-direction: column; }
+
+  .library-row {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--milk);
+  }
+  .library-row:first-child { border-top: 1px solid var(--milk); }
+
+  .lib-cover {
+    flex-shrink: 0;
+    width: 82px; height: 112px;
+    background: var(--cream-dark);
+    border: 1px solid var(--milk);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .lib-cover::before,
+  .lib-cover::after {
+    content: '';
+    position: absolute;
+    width: 7px; height: 7px;
+    border-color: var(--milk);
+    border-style: solid;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .lib-cover::before { top: -2px; left: -2px; border-width: 1.5px 0 0 1.5px; }
+  .lib-cover::after  { bottom: -2px; right: -2px; border-width: 0 1.5px 1.5px 0; }
+  .lib-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .lib-cover-placeholder {
+    font-size: 0.44rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--milk);
+    text-align: center;
+    line-height: 1.9;
+    padding: 0.4rem;
+  }
+
+  .lib-body { flex: 1; display: flex; flex-direction: column; gap: 0.4rem; padding-top: 0.05rem; }
+
+  .lib-type {
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--milk);
+  }
+
+  .lib-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--espresso);
+    line-height: 1.3;
+  }
+
+  .lib-author { font-size: 0.56rem; font-style: italic; color: var(--latte); }
+
+  .lib-rating { font-size: 0.54rem; color: var(--caramel); letter-spacing: 0.04em; }
+
+  .lib-quote {
+    font-size: 0.6rem;
+    line-height: 1.9;
+    color: var(--ink-soft);
+    border-left: 2px solid var(--milk);
+    padding-left: 0.8rem;
+    font-style: italic;
+    margin-top: 0.1rem;
+  }
+
+  .lib-note { font-size: 0.59rem; line-height: 1.85; color: var(--ink-soft); }
+
+  .lib-thumb {
+  flex-shrink: 0;
+    width: 80px; height: 80px;
+    background: var(--cream-dark);
+    border: 1px solid var(--milk);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .lib-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(0.65);
+  }
+
+    /*position: relative;
+  }
+
+  /* ════════════════ CONTACT ════════════════ */
+  .contact-block {
+    background: var(--cream-dark);
+    border: 1.5px solid var(--milk);
+    border-radius: 2px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .contact-block p { font-size: 0.64rem; line-height: 1.95; color: var(--ink-soft); max-width: 460px; }
+  .contact-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  /* ════════════════ FOOTER ════════════════ */
+  footer {
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 740px;
+    border-top: 1.5px solid var(--mocha);
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .footer-logo { font-size: 1rem; font-weight: 700; color: var(--espresso); }
+  .footer-logo em { font-style: italic; font-weight: 400; color: var(--mocha); }
+
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.54rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .footer-links a:hover { color: var(--coffee); }
+
+  .footer-copy {
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    color: var(--milk);
+    text-transform: uppercase;
+    width: 100%;
+  }
+
+  /* ── Scroll Reveal ── */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Responsive ── */
+  @media (max-width: 580px) {
+    .hero-grid { flex-direction: column; }
+    .projects-grid, .skills-grid { grid-template-columns: 1fr; }
+    .library-row { flex-direction: column; }
+    .lib-cover { width: 100%; height: 160px; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#about">About</a>
+  <a href="#experience">Experience</a>
+  <a href="#conferences">Conferences</a>
+  <a href="#projects">Projects</a>
+  <a href="#skills">Skills</a>
+  <a href="#library">Library</a>
+  <a href="#contact">Resume</a>
+</nav>
+
+<div class="page">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <div class="logo">Elias <em>Nicolas</em></div>
+    <div class="subtitle">Mechanical Engineer and Data Scientist<br>Redlands, CA</div>
+  </header>
+
+  <!-- ══ ABOUT ══ -->
+  <section id="about">
+    <div class="section-head reveal">
+      <h2>About</h2>
+      <span class="tag">Introduction</span>
+    </div>
+    <div class="hero-grid reveal">
+      <div class="hero-img-wrap">
+        <img src="./assets/Pic.jpg" alt="Picture" />
+        <!-- No photo? Remove the img and uncomment:
+        <div class="img-placeholder-text">Add<br>Photo<br>Here</div>
+        -->
+      </div>
+      <div class="hero-text">
+        <h1>Elias Nicolas</h1>
+        <div class="role">ME and DS | Aspiring Polymath | Looking for Roles in the Defense or Robotics Sector</div>
+        <p>I am currently a student studying Physics, Data Science, and Mechanical Engineering through the University of Redlands dual degree engineering program. I hope to begin my career in robotics or defense, outside of engineering I enjoy learning about religion and philosophy as a personal goal of mine is to become a Polymath by staying in shape physically, sharpening my mind through analyzing philosophical texts, and of course building engineering projects from the ground up. </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn">View Work</a>
+          <a href="#contact" class="btn btn-ghost">Download Resume</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ EXPERIENCE ══ -->
+  <section id="experience">
+    <div class="section-head reveal">
+      <h2>Experience</h2>
+      <span class="tag">Career</span>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">Jan. 2026 — Present</div>
+        <h3>Mechanical Engineer - Programmatic Specialist</h3>
+        <div class="timeline-company">NASA L'Space — Remote</div>
+        <ul class="timeline-duties">
+          <li>Ensures the production of parts integrate seamlessly with the software required to ship our deliverable</li>
+          <li>Works with multiple interdisciplinary teams, delivering parts designed in Siemens NX for our lunar mission concept</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">Jan. 2026 — Present</div>
+        <h3>Makerspace Assistant </h3>
+        <div class="timeline-company">University of Redlands Makerspace — Redlands, CA</div>
+        <ul class="timeline-duties">
+          <li>Utilizes 3D slicing software to cut down print times by 50%, leading to both filament and time saved</li>
+          <li>Optimizes 3D models geometry for successful CNC milling and 3D printing fabrication for various requests</li>
+          <li>Maintains lab equipment, troubleshooting hardware for 3D Printers, Laser Cutters, CNC Mills, and etc.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">Sep. 2025 — Present</div>
+        <h3>Lead Engineer</h3>
+        <div class="timeline-company">Redlands Robotics and Drone Club - Redlands, CA</div>
+        <ul class="timeline-duties">
+          <li>Designs 3+ drone chassis iterations in CAD such as Solidworks and Onshape, increasing club production</li>
+          <li>Collaborates with 8 team members to develop projects with the University of Redlands GIS Department</li>
+          <li>Directs the design process of an FPV drone to integrate hardware with AI and machine learning capabilities</li>
+        </ul>
+      </div>
+
+       <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">Aug. 2024 — Present</div>
+        <h3>Lead Mechanical Engineer</h3>
+        <div class="timeline-company">Students for Exploration and Development of Space (SEDS) Redlands Chapter  - Redlands, CA</div>
+        <ul class="timeline-duties">
+          <li>Spearheads aerospace engineering projects (i.e. rovers, rockets, and drones) producing 10+ validated designs</li>
+          <li>Utilizes Multimeters, Oscilloscopes, Soldering Irons, CNC Mills, and 3D Printers for the fabrication process</li>
+          <li>Leads the mechanical sub-team to deliver production parts designed in Onshape and Solidworks</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">Aug. 2024 — Dec. 2025</div>
+        <h3>Volunteer Center Intern </h3>
+        <div class="timeline-company">University of Redlands Community Service Office   - Redlands, CA</div>
+        <ul class="timeline-duties">
+          <li>Spearheaded community outreach campaigns that increase student involvement and recruited 100+ volunteers</li>
+          <li>Utilized Microsoft Excel to complete data entry for various volunteer events to track student engagement</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="conferences">
+    <div class="section-head reveal">
+      <h2>Conferences</h2>
+      <span class="tag">Networking</span>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">Feb. 2026</div>
+        <h3>University of Redlands Bulldog Trek</h3>
+        <div class="timeline-company">San Francisco</div>
+        <ul class="timeline-duties">
+          <li>Visited Stripe, Nixon Peabody, The Rickshaw Shop, Guide Dogs for the Blind, and Marin Community Action. Connected with some cool people and got some great career insight for my future in robotics.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">Nov. 2025</div>
+        <h3>Spacevision 2025</h3>
+        <div class="timeline-company">Seattle</div>
+        <ul class="timeline-duties">
+          <li>Got to meet some of the most influential people in the aerospace sector, connected with peers doing amazing work at other chapters, and got to see a panel regarding the use of robotics in space (my favorite panel of the conference). Companies like Icarus Robotics, Astranis, and Interlune set the bar high but I am ready to take on the challenge.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ PROJECTS ══ -->
+  <section id="projects">
+    <div class="section-head reveal">
+      <h2>Projects</h2>
+      <span class="tag">Crafted Portfolio</span>
+    </div>
+    <div class="projects-grid">
+
+      <!-- BrewTrack — coffee cup illustration -->
+      <div class="project-card reveal">
+        <img class="project-cover" src="./assets/da_vinci.png" alt="Da Vinci">
+        <div class="project-body">
+          <div class="p-tag">Robotics</div>
+          <h3>Da Vinci : The Drawing Robotic Arm</h3>
+          <p>Real-time adaptive robotic arm that will mimic whatever you draw virtually through a Java to C++ pipline. Utilizes custom designed parts 3D printed in-house, includes a Python kinematics simulation, and runs off an ESP-32 (total cost less than $100).</p>
+          <div class="project-links">
+            <a href="./project_1.html">More ↗</a>
+            <a href="https://github.com/3N1C0/Robotic_Arm">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Folio — open book illustration -->
+      <div class="project-card reveal">
+        <img class="project-cover" src="./assets/flux.png" alt="Flux">
+        <div class="project-body">
+          <div class="p-tag">Physics</div>
+          <h3>Axial Flux Motor</h3>
+          <p>Designed a custom Axial Flux Motor to deliver high speed RPM, the brushless motor features an 8 pole, 6 slot topology. I designed all the parts to be modular making it easier for maintenance given the complications that may arise.</p>
+          <div class="project-links">
+            <a href="./project_2.html">More ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Urban Lens — map illustration -->
+      <div class="project-card reveal">
+        <img class="project-cover" src="./assets/japan.png" alt="japan">
+        <div class="project-body">
+          <div class="p-tag">Data Science and GIS</div>
+          <h3>Japan Natural Disaster Risk Analysis</h3>
+          <p>Gathered open source data regarding Japan Natural Disasters and Japan Statistics to craft an interactive Streamlit dashboard, featuring choropleth maps made in Plotly utilizing GeoJSON data. I also implemented a comprehensive risk score to classify areas associated with real world disaster impact, yielding a 72% rank correlation.</p>
+          <div class="project-links">
+            <a href="https://japan-data-analysis.streamlit.app/">Demo ↗</a>
+            <a href="https://github.com/3N1C0/Japan_Risk_Analysis?tab=readme-ov-file">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <img class="project-cover" src="./assets/mario.png" alt="Flux">
+        <div class="project-body">
+          <div class="p-tag">Data Science and Machine Learning</div>
+          <h3>Autonomous Navigation Agent</h3>
+          <p>I implemented a PPO algorithm to continuously run reinforcement learning trials so the model could essentially play Super Mario Bros. on its own. The biggest challenge of this project was optimizing the Deep RL training on constrained hardware, I got around this by tuning hyperparameters for CPU efficiency.</p>
+          <div class="project-links">
+            <a href="https://github.com/3N1C0/Autonomous-Navigation-Agent-Super-Mario-Bros">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- ══ SKILLS ══ -->
+  <section id="skills">
+    <div class="section-head reveal">
+      <h2>Skills and Tools</h2>
+      <span class="tag">Toolkit</span>
+    </div>
+    <div class="skills-grid">
+
+      <div class="skill-block reveal">
+        <h4>CAD and FEA</h4>
+        <div class="tag-row">
+          <span class="skill-tag">Onshape</span>
+          <span class="skill-tag">Solidworks</span>
+          <span class="skill-tag">Siemens NX</span>
+          <span class="skill-tag">SimScale</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <h4>Programming</h4>
+        <div class="tag-row">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <h4>Lab Equipment</h4>
+        <div class="tag-row">
+          <span class="skill-tag">3D Printer</span>
+          <span class="skill-tag">Laser Cutter</span>
+          <span class="skill-tag">CNC Mill</span>
+          <span class="skill-tag">Oscilloscope</span>
+          <span class="skill-tag">Soldering Iron</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <h4>Soft Skills</h4>
+        <div class="tag-row">
+          <span class="skill-tag">Leadership</span>
+          <span class="skill-tag">Communcation</span>
+          <span class="skill-tag">Technical Writing</span>
+          <span class="skill-tag">Self-Driven</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ LIBRARY ══ -->
+  <!--
+    HOW TO ADD AN ENTRY — copy a .library-row and fill:
+      .lib-cover  → <img src="YOUR_URL"> or leave the placeholder div
+      .lib-type   → "📖 Book" / "🎙️ Podcast" / "🎬 Film" etc.
+      .lib-title  → title of the piece
+      .lib-author → author / creator / year
+      .lib-rating → star rating text
+      .lib-quote  → a quote from the work (italic, left border)
+      .lib-note   → your personal "why I love this" commentary
+  -->
+  <section id="library">
+    <div class="section-head reveal">
+      <h2>The Library</h2>
+      <span class="tag">Curated</span>
+    </div>
+    <div class="library">
+      <div class="library-row reveal">
+        <div class="lib-thumb">
+          <img src="./assets/feel.jpg" alt="Feel" style="width: 120px; height: 120px; object-fit: contain; background-color: white;">
+        </div>
+        <div class="lib-body">
+          <div class="lib-type">Song</div>
+          <div class="lib-title">FEEL</div>
+          <div class="lib-author">Hiroshi Yoshimura, 2020</div>
+          <div class="lib-note">This song evokes pressure as it transports you into an enviorment where the tension is palpable. It geuinely taps into my competitive mentality, as it is representative of a high stakes moment to me, one that I wish to rise to the occasion for.</div>
+        </div>
+      </div>
+
+      <div class="library-row reveal">
+        <div class="lib-cover">
+          <img src="./assets/ma.jpg" alt="Marcus Aurelius" />
+        </div>
+        <div class="lib-body">
+          <div class="lib-type">Book</div>
+          <div class="lib-title">Meditations</div>
+          <div class="lib-author">Marcus Aurelius</div>
+          <div class="lib-quote">"Remember always what the nature of the Universe is, what your own nature is, and how these are related - the one to the other." (Book II, 9)</div>
+          <div class="lib-note">Being aware of the natural order of things and how they relate to ourselves are key to excelng in multiple diverse fields, as we must recognize how our current skills are applicable to the desired field we hope to learn. Having that sense of awarness of my surroundings and understanding of my tendencies is key to improving myself.</div>
+        </div>
+      </div>
+
+      <div class="library-row reveal">
+        <div class="lib-thumb">
+          <img src="./assets/sirius.jpg" alt="Sirius" style="width: 120px; height: 120px; object-fit: contain; background-color: white;">
+        </div>
+        <div class="lib-body">
+          <div class="lib-type">Song</div>
+          <div class="lib-title">Sirius</div>
+          <div class="lib-author">The Alan Parsons Project, 1982</div>
+          <div class="lib-note">As an avid basketball fan this song just reminds me of Michael Jordan's Bulls, the intensity and drive he brought to the court is not only admirable but applicable as well to other walks of life. </div>
+        </div>
+      </div>
+
+        <div class="library-row reveal">
+        <div class="lib-cover">
+          <img src="./assets/gita.jpg" alt="The Bhagavad-Gita" />
+        </div>
+        <div class="lib-body">
+          <div class="lib-type">Book</div>
+          <div class="lib-title">The Bhagavad-Gita</div>
+          <div class="lib-author">Translated by Barbara Stoler Miller</div>
+          <div class="lib-quote">"Contacts with matter make us feel heat and cold, pleasure and pain. Arjuna, you must learn to endure fleeting things—they come and go!" (Gita, 13)</div>
+          <div class="lib-note">When we analyze the Gita through a philosophical lense, we realize that Arjuana is his own worst enemy, something many of us can relate to. Hinduism's concept of detachment is something I always found interesting, as it is true. In order to fuffill my own goals I must sacrifice my own energy committed to a different aspect of my lives.</div>
+        </div>
+      </div>
+
+
+      <!-- ── ADD MORE: copy a .library-row block above ── -->
+
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ══ -->
+  <section id="contact">
+    <div class="section-head reveal">
+      <h2>Resume &amp; Contact</h2>
+      <span class="tag">Connect</span>
+    </div>
+    <div class="contact-block reveal">
+      <p>Looking for a coachable individual ready to assist your team of engineers? Don't hesitate to reach out.</p>
+      <div class="contact-actions">
+        <a href="./assets/Resume_Elias_Nicolas_Portfolio.pdf" class="btn" target="_blank" rel="noopener">Download Resume ↓</a>
+        <a href="mailto:elias.f.nicolas@gmail.com" class="btn btn-ghost">elias.f.nicolas@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">Elias <em>Nicolas</em></div>
+  <nav class="footer-links">
+    <a href="http://www.linkedin.com/in/elias-nicolas-2a98652a2" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/3N1C0" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:elias.f.nicolas@gmail.com">Email</a>
+  </nav>
+  <div class="footer-copy">© 2025 Elias Nicolas</div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+      const idx = Array.from(siblings).indexOf(entry.target);
+      entry.target.style.transitionDelay = `${idx * 50}ms`;
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Smooth scroll with nav offset
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const id = this.getAttribute('href');
+    if (!id || id === '#') return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 58, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
